@@ -1,0 +1,121 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center everything horizontally */
+  }
+  
+  /* Title Styling */
+  h1 {
+    color: #fff;
+    margin-bottom: 40px;
+  }
+  
+  /* Slider Container */
+  .slider-container {
+    margin: 20px 0;
+    width: 80%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center sliders horizontally */
+  }
+  
+  .slider-label {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #bbb;
+  }
+  
+  .slider-value {
+    font-size: 20px;
+    margin-top: 5px;
+    color: #f1f1f1;
+  }
+  
+  /* Sliders */
+  .slider {
+    width: 100%; /* Full width of the container */
+    height: 12px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #333;
+    border-radius: 5px;
+    outline: none;
+    transition: background 0.3s;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #4caf50;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .slider::-webkit-slider-thumb:hover {
+    background: #81c784;
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #4caf50;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .slider::-moz-range-thumb:hover {
+    background: #81c784;
+  }
+  
+  /* Value Display */
+  #value-display {
+    margin: 40px 0;
+    font-size: 24px;
+    color: #f1f1f1;
+  }
+  
+  #oxygen-display,
+  #po2max-display,
+  #maxdepth-display {
+    font-weight: bold;
+    color: #4caf50;
+  }
+  
+  /* Button Styles (if you have any button in the future) */
+  button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #81c784;
+  }
+  
+  /* Responsive Styling */
+  @media (max-width: 600px) {
+    .slider-container {
+      width: 90%;
+    }
+    #value-display {
+      font-size: 20px;
+    }
+  }
+  

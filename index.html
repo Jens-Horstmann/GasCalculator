@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progressive Web App with Sliders</title>
+
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="theme-color" content="#4CAF50">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    .slider-container {
+      margin: 20px 0;
+    }
+    .slider-label {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .slider-value {
+      font-size: 20px;
+      margin-top: 5px;
+    }
+    .slider {
+      width: 80%;
+      margin: 0 auto;
+    }
+    #value-display {
+      margin: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Gas Calculator</h1>
+
+  <div id="slider-oxygen" class="slider-container">
+    <input type="range" id="oxygen-slider" class="slider" min="0.21" max="0.50" step="0.01" value="0.21">
+    <div class="slider-label">Oxygen</div>
+    <div id="oxygen-value" class="slider-value">0.21</div>
+  </div>
+
+  <div id="slider-po2max" class="slider-container">
+    <input type="range" id="po2max-slider" class="slider" min="1.2" max="1.6" step="0.1" value="1.4">
+    <div class="slider-label">PO2max</div>
+    <div id="po2max-value" class="slider-value">1.4</div>
+  </div>
+
+  <div id="slider-maxdepth" class="slider-container">
+    <input type="range" id="maxdepth-slider" class="slider" min="0" max="8" step="0.01" value="6.666">
+    <div class="slider-label">Maximum Depth</div>
+    <div id="maxdepth-value" class="slider-value">6.666</div>
+  </div>
+
+  <button id="switch-mode">Nitrox</button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const oxygenSlider = document.getElementById('oxygen-slider');
+      const po2maxSlider = document.getElementById('po2max-slider');
+      const maxdepthSlider = document.getElementById('maxdepth-slider');
+      const switchModeButton = document.getElementById('switch-mode');
+
+      const oxygenValueDisplay = document.getElementById('oxygen-value');
+      const po2maxValueDisplay = document.getElementById('po2max-value');
+      const maxdepthValueDisplay = document.getElementById('maxdepth-value');
+
+      let mode = true;
+      let oxygenValue = 0.21;
+      let po2maxValue = 1.4;
+      let maxdepthValue = po2maxValue / oxygenValue;
+
+      // Update the other sliders based on changes
+      function updateSliders() {
+        oxygenSlider.value = oxygenValue;
+        po2maxSlider.value = po2maxValue;
+        maxdepthSlider.value = maxdepthValue;
+
+        oxygenValueDisplay.innerText = (oxygenValue*100).toFixed(0) + '%';
+        po2maxValueDisplay.innerText = po2maxValue.toFixed(1);
+        maxdepthValueDisplay.innerText = ((maxdepthValue-1)*10).toFixed(1) +'m';
+      }
+
+      // Oxygen slider changes
+      oxygenSlider.addEventListener('input', function () {
+        oxygenValue = parseFloat(oxygenSlider.value);
+
+        // Adjust other sliders based on the relationship
+        if(maxdepthValue > 26) {
+            maxdepthValue = 26;
+            po2maxValue = oxygenValue * maxdepthValue;
+        } else if (maxdepthValue < 0) {
+            maxdepthValue = 0;
+            po2maxValue = oxygenValue * maxdepthValue;
+        } else {
+            maxdepthValue = po2maxValue / oxygenValue;
+        }
+
+        updateSliders();
+      });
+
+      // PO2max slider changes
+      po2maxSlider.addEventListener('input', function () {
+        po2maxValue = parseFloat(po2maxSlider.value);
+
+        // Adjust other sliders based on the relationship
+ 
+        if(maxdepthValue >26) {
+            maxdepthValue = 26;
+            oxygenValue = po2maxValue / maxdepthValue;
+        } else if (maxdepthValue < 0) {
+            maxdepthValue = 0;
+            oxygenValue = po2maxValue / maxdepthValue;
+        } else {
+            maxdepthValue = po2maxValue / oxygenValue;
+        }
+ 
+        updateSliders();
+      });
+
+      // maxDepth slider changes
+      maxdepthSlider.addEventListener('input', function () {
+        maxdepthValue = parseFloat(maxdepthSlider.value);
+
+        // Adjust other sliders based on the relationship
+
+        if(oxygenValue>1.0){
+            oxygenValue = 1.0;
+            po2maxValue = oxygenValue * maxdepthValue; 
+        } else if (oxygenValue<0.01){
+            oxygenValue = 0.01;
+            po2maxValue = oxygenValue * maxdepthValue;
+        } else {
+            oxygenValue = po2maxValue / maxdepthValue;
+        }
+
+        updateSliders();
+      });
+      
+      switchModeButton.addEventListener('click', () => {
+        if(mode){
+            mode = false;
+            switchModeButton.textContent = 'Tech';
+            oxygenValue = 0.21;
+            oxygenSlider.min = 0.01;
+            oxygenSlider.max = 1.0;
+
+            po2maxValue = 1.4;
+            po2maxSlider.min = 1.0;
+            po2maxSlider.max = 2.0;
+
+            maxdepthSlider.value = 1.4/0.21;
+            maxdepthSlider.min = 0.0;
+            maxdepthSlider.max = 26.0;
+        } else {
+            mode = true;
+            switchModeButton.textContent = 'Nitrox';
+            oxygenValue = 0.21;
+            oxygenSlider.min = 0.21;
+            oxygenSlider.max = 0.5;
+
+            po2maxValue = 1.4;
+            po2maxSlider.min = 1.2;
+            po2maxSlider.max = 1.6;
+
+            maxdepthValue = 1.4/0.21;
+            maxdepthSlider.min = 0.0;
+            maxdepthSlider.max = 8.0;
+        }
+
+        updateSliders();
+      });
+
+      updateSliders();
+    });
+  </script>
+
+</body>
+</html>
