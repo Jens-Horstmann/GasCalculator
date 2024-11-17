@@ -119,3 +119,21 @@ body {
     }
   }
   
+  #install-button {
+    position: fixed; /* Fixes the button to a specific position on the screen */
+    bottom: 20px;    /* Positions the button 20px from the bottom */
+    left: 50%;       /* Centers the button horizontally */
+    transform: translateX(-50%); /* Adjusts for the button's width to center it */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for style */
+  }
+  
+  #install-button:hover {
+    background-color: #0056b3;
+  }

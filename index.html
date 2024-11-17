@@ -6,8 +6,8 @@
   <title>Progressive Web App with Sliders</title>
 
   <!-- PWA Meta Tags -->
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./styles.css">
   <link rel="icon" href="./favicon.png" type="image/png">
 
   <meta name="theme-color" content="#4CAF50">
@@ -62,9 +62,51 @@
     <div id="maxdepth-value" class="slider-value">6.666</div>
   </div>
 
+  
   <button id="switch-mode">Nitrox</button>
 
+  <button id="install-button" style="display: none;">Install for offline use</button>
+
+
   <script>
+
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        const installButton = document.getElementById('install-button');
+        installButton.style.display = 'none';
+    }
+
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent the mini-infobar from appearing
+        e.preventDefault();
+        // Save the event for later
+        deferredPrompt = e;
+
+        // Show the install button
+        const installButton = document.getElementById('install-button');
+        installButton.style.display = 'block';
+
+        installButton.addEventListener('click', () => {
+            if (deferredPrompt) {
+            // Show the installation prompt
+            deferredPrompt.prompt();
+
+            // Wait for the user's response
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+                } else {
+                console.log('User dismissed the install prompt');
+                }
+                // Clear the deferred prompt, as it cannot be reused
+                deferredPrompt = null;
+            });
+            } 
+        });
+    });
+
+
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./service-worker.js', { scope: './'})
           .then(() => console.log('Service Worker Registered!'))
@@ -190,6 +232,8 @@
 
       updateSliders();
     });
+
+
   </script>
 
 </body>
