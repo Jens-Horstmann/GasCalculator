@@ -2,7 +2,7 @@
     "name": "Sliders PWA",
     "short_name": "Sliders",
     "description": "A PWA with interdependent sliders for Oxygen, PO2max, and maxDepth.",
-    "start_url": "/GasCalculator",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#4CAF50",
