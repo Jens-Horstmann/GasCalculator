@@ -1,10 +1,11 @@
-const CACHE_NAME = 'pwa-cache-v5';
+const CACHE_NAME = 'pwa-cache-v6';
 const urlsToCache = [
     './',
     './index.html',
     './manifest.json',
     './icon-192x192.png',
     './icon-512x512.png',
+    './favicon.png',
     './styles.css'
 ];
 
