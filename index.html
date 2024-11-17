@@ -63,7 +63,14 @@
   <button id="switch-mode">Nitrox</button>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js')
+          .then(() => console.log('Service Worker Registered!'))
+          .catch(err => console.error('Service Worker registration failed:', err));
+      }
+
+
+      document.addEventListener('DOMContentLoaded', function () {
       const oxygenSlider = document.getElementById('oxygen-slider');
       const po2maxSlider = document.getElementById('po2max-slider');
       const maxdepthSlider = document.getElementById('maxdepth-slider');
