@@ -1,11 +1,11 @@
 const CACHE_NAME = 'pwa-cache-v5';
 const urlsToCache = [
-    '/',
-    '/index.html',
-    '/manifest.json',
-    '/icon-192x192.png',
-    '/icon-512x512.png',
-    '/styles.css'
+    './',
+    './index.html',
+    './manifest.json',
+    './icon-192x192.png',
+    './icon-512x512.png',
+    './styles.css'
 ];
 
 self.addEventListener('install', event => {
@@ -20,3 +20,4 @@ self.addEventListener('install', event => {
         .then(response => response || fetch(event.request))
     );
   });
+
